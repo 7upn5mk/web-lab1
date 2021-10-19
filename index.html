@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="images/icon.png">
+    <title>Lab 1 web programming</title>
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="main/DataHandler.js"></script>
+    <style>
+        body{
+            color: black;
+            font-family: 'Georgia',serif;
+            background-color: #fcdf58;
+        }
+        table, tr, td{
+            padding: 0; /*top-bottom left-right*/
+            /*border: 1px solid black;*/
+        }
+        #main-table{
+            width: 95%;
+            margin: auto;
+        }
+        #header{
+            background-color: #F8D843;
+            font-size: 22px;
+            font-weight: bold;
+            color: black;
+            padding-top: 3%;
+        }
+        .left-aligned{
+            float: left;
+            margin-left: 5%;
+            margin-bottom: 0px;
+        }
+        .right-aligned{
+            float: right;
+            margin-right: 5%;
+        }
+        .header{
+            text-align: center;
+            background-color: #b0961f;
+        }
+        .image{
+            width: 100%;
+            margin-left: 0%;
+        }
+        .body{
+            padding-top: 0;
+        }
+        .input-label{
+            float: left;
+            width: 25%;
+        }
+        .input-value{
+            text-align: center;
+        }
+        #input-table{
+            margin: auto;
+            width: 60%;
+            alignment: center;
+        }
+        #y-values{
+            width: 70%;
+            font-family: "Georgia", serif;
+            font-size: 19px;
+        }
+        #x-values input{
+            width: 27px;
+            font-size: 19px;
+            font-family: "Georgia", serif;
+        }
+        #x-values input:hover{
+            font-weight: bold;
+            color: darkred;
+        }
+        #r-values{
+            width: 70%;
+            font-size: 19px;
+            font-family: "Georgia", serif;
+            text-align-last: center;
+        }
+        #result-row{
+            width: 60%;
+            position: relative;
+            vertical-align: top;
+        }
+        #result-table{
+            width: 100%;
+            background-color: #e7bf06;
+            text-align: center;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+        #result-table td {
+            overflow: hidden;
+        }
+        .w13 {width: 13%}
+        .w24 {width: 24%}
+        .result-content{
+            position: absolute;
+            height: 100%;
+            padding-bottom: 0;
+            width: 100%;
+            overflow-y: scroll;
+            background-color: #ffd23c;
+        }
+
+        div.buttons{
+            text-align: center;
+            margin-bottom: 10%;
+            padding-top: 5%;
+            border-top: gray 3px;
+        }
+        div.buttons input{
+            font-family: 'Georgia', serif;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        div.buttons input:hover{
+            color:darkred;
+        }
+        input[type='submit']{
+            margin-right: 5%;
+        }
+        .x-button input:checked{
+            background-color: red;
+        }
+        .active{
+            color:seagreen;
+        }
+        #errors{
+            width: 100%;
+        }
+        .error{
+            word-wrap: break-word;
+            font-size: 19px;
+            color: red;
+        }
+        #result-table-header {
+            background-color: #b0961f;
+        }
+    </style>
+</head>
+<body>
+<table id="main-table">
+    <tr>
+        <td id="header" colspan="2">
+            <span class="left-aligned"><img src="images/ankha.gif" alt="cute cat dancing"  width="200"/></span>
+            <span class="right-aligned">Фам Мань Туан<br>P3112<br>Вариант: 12022 </span>
+        </td>
+    </tr>
+    <tr class="body">
+        <td id="graph">
+            <div class="header">
+                <h2>Graph</h2>
+            </div>
+            <div>
+                <img class="image" src="images/graph.png">
+            </div>
+        </td>
+        <td id="result-row" rowspan="2">
+            <div class="header">
+                <h2>Result</h2>
+            </div>
+            <div class="result-content">
+                <table id="result-table">
+                    <colgroup>
+                        <col class="w13"/>
+                        <col class="w13"/>
+                        <col class="w13"/>
+                        <col class="w13"/>
+                        <col class="w24"/>
+                        <col class="w24"/>
+                    </colgroup>
+                    <tr id="result-table-header">
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>R</th>
+                        <th>Result</th>
+                        <th>Time</th>
+                        <th>Executed time (ns)</th>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+        <td id="values">
+            <div class="header">
+                <h2>Values</h2>
+            </div>
+            <div id="values-container">
+                <form id="input-form" action="" method="POST">
+                    <table id="input-table">
+                        <tr>
+                            <td class="input-label"><h3>X: </h3></td>
+                            <td class="input-value">
+                                <div id="x-values">
+                                    <input type="button" name="xvalue" value="-4">
+                                    <input type="button" name="xvalue" value="-3">
+                                    <input type="button" name="xvalue" value="-2">
+                                    <input type="button" name="xvalue" value="-1">
+                                    <input type="button" name="xvalue" value="0">
+                                    <input type="button" name="xvalue" value="1">
+                                    <input type="button" name="xvalue" value="2">
+                                    <input type="button" name="xvalue" value="3">
+                                    <input type="button" name="xvalue" value="4">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="input-label"><h3>Y: </h3></td>
+                            <td class="input-value">
+                                <input id="y-values" type="text" name="yvalue" placeholder="Number from -3 to 5" autocomplete="off">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="input-label"><h3>R: </h3></td>
+                            <td class="input-value">
+                                <div class="r-select">
+                                    <select id="r-values">
+                                        <option value="1">1</option>
+                                        <option value="1.5">1.5</option>
+                                        <option value="2">2</option>
+                                        <option value="2.5">2.5</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <ul id="errors"></ul>
+                                <div class="buttons">
+                                    <input id="submit" type="submit" value="Submit">
+                                    <input id="reset" type="reset" value="Reset">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </td>
+</table>
+</body>
+</html>
