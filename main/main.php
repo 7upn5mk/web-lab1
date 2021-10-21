@@ -5,10 +5,14 @@ $json = new Services_JSON();
 session_start();
 if ($_SERVER["REQUEST_METHOD"]=="POST") {
     try {
+        $x_range = array(-4,-3,-2,-1,0,1,2,3,4);
+        $r_range = array(1,1.5,2,2.5,3);
         if (!isset($_POST["x"]) or !isset($_POST["y"]) or !isset($_POST["r"])) {
             throw new Exception("Data have been sent unsuccessfully");
         } else if ((!is_numeric($_POST["x"])) or (!is_numeric($_POST["y"])) or (!is_numeric($_POST["r"]))) {
             throw new Exception("Wrong formatted data");
+        } else if (!in_array($_POST["x"],$x_range) or $_POST["y"]<-3 or $_POST["y"]>5 or !in_array($_POST["r"],$r_range)) {
+            throw new Exception("Numbers are not in required ranges");
         } else {
             $coord = new Output($_POST["x"],$_POST["y"],$_POST["r"]);
             $results = (isset($_SESSION["results"]))?($_SESSION["results"]):array();
