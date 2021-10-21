@@ -5,8 +5,10 @@ $json = new Services_JSON();
 session_start();
 if ($_SERVER["REQUEST_METHOD"]=="POST") {
     try {
-        if (!isset($_POST["x"]) or !isset($_POST["y"]) or !isset($_POST["r"]) or (!is_numeric($_POST["x"])) or (!is_numeric($_POST["y"])) or (!is_numeric($_POST["r"]))) {
+        if (!isset($_POST["x"]) or !isset($_POST["y"]) or !isset($_POST["r"])) {
             throw new Exception("Data have been sent unsuccessfully");
+        } else if ((!is_numeric($_POST["x"])) or (!is_numeric($_POST["y"])) or (!is_numeric($_POST["r"]))) {
+            throw new Exception("Wrong formatted data");
         } else {
             $coord = new Output($_POST["x"],$_POST["y"],$_POST["r"]);
             $results = (isset($_SESSION["results"]))?($_SESSION["results"]):array();
